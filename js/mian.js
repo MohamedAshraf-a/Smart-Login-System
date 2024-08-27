@@ -1,4 +1,5 @@
 "use strict";
+
 // Select the HTML elements
 var signinEmail = document.querySelector("#signinEmail");
 var signinPassword = document.querySelector("#signinPassword");
@@ -35,7 +36,6 @@ var accountsList =
     : JSON.parse(localStorage.getItem("accountsList"));
 
 // Event listeners
-
 signupEmail.addEventListener("keydown", function (e) {
   var EmailValue = e.target.value;
   if (validateEmail(EmailValue)) {
@@ -96,9 +96,9 @@ btnSignup.addEventListener("click", function () {
       reader.onload = function (e) {
         var addList = {
           Name: name,
-          Emial: email,
+          Email: email, // Corrected property name
           password: password,
-          image: e.target.value,
+          image: e.target.result,
         };
         console.log(accountsList, "  Addlist ", addList);
 
@@ -120,9 +120,11 @@ btnSignin.addEventListener("click", function () {
 
   if (searchAccount(em, pass)) {
     var account = accountsList.find(
-      (acc) => acc.Emial.toLowerCase() === em.toLowerCase()
+      (acc) => acc.Email && acc.Email.toLowerCase() === em.toLowerCase()
     );
-    AccountMode(account.Name, account.image)
+    if (account) {
+      AccountMode(account.Name, account.image);
+    }
   } else {
     if (em === "" && pass === "") {
       emptyInputs.classList.remove("d-none");
@@ -131,26 +133,26 @@ btnSignin.addEventListener("click", function () {
     }
   }
 });
-signinEmail.addEventListener("keypress", function (event) {
-  if (event.key=="Enter")
-     {
-      var pass = signinPassword.value;
-      var em = signinEmail.value;
-    
-      if (searchAccount(em, pass)) {
-        var account = accountsList.find(
-          (acc) => acc.Emial.toLowerCase() === em.toLowerCase()
-        );
-        AccountMode(account.Name, account.image)
-      } else {
-        if (em === "" && pass === "") {
-          emptyInputs.classList.remove("d-none");
-        } else {
-          wrongLogin.classList.remove("d-none");
-        }
-      }
-    
 
+signinEmail.addEventListener("keypress", function (event) {
+  if (event.key == "Enter") {
+    var pass = signinPassword.value;
+    var em = signinEmail.value;
+
+    if (searchAccount(em, pass)) {
+      var account = accountsList.find(
+        (acc) => acc.Email && acc.Email.toLowerCase() === em.toLowerCase()
+      );
+      if (account) {
+        AccountMode(account.Name, account.image);
+      }
+    } else {
+      if (em === "" && pass === "") {
+        emptyInputs.classList.remove("d-none");
+      } else {
+        wrongLogin.classList.remove("d-none");
+      }
+    }
   }
 });
 
@@ -191,9 +193,35 @@ function SigninMode() {
   SignupBox.classList.add("d-none");
   SigninBox.classList.remove("d-none");
 }
-
 function localStorageUpdate() {
-  localStorage.setItem("accountsList", JSON.stringify(accountsList));
+  // Limit the number of accounts stored
+  const maxAccounts = 100; // Example limit
+  if (accountsList.length > maxAccounts) {
+    accountsList = accountsList.slice(-maxAccounts); // Keep only the latest 'maxAccounts' entries
+  }
+
+  // Convert accountsList to JSON and check its size
+  const accountsListString = JSON.stringify(accountsList);
+  const storageQuota = 5 * 1024 * 1024; // 5 MB, typical localStorage quota
+  if (accountsListString.length > storageQuota) {
+    console.warn("Data size exceeds localStorage quota.");
+    return; // Prevent storing if data size is too large
+  }
+
+  try {
+    localStorage.setItem("accountsList", accountsListString);
+  } catch (e) {
+    if (e.name === "QuotaExceededError") {
+      console.error(
+        "LocalStorage quota exceeded. Consider reducing the data size or using a different storage solution."
+      );
+    } else {
+      console.error(
+        "An unexpected error occurred while updating localStorage:",
+        e
+      );
+    }
+  }
 }
 
 function AccountMode(name, image) {
@@ -202,20 +230,19 @@ function AccountMode(name, image) {
   profile.classList.remove("d-none");
 
   // Update profile name and profile picture
-  profileName.textContent = name; 
+  profileName.textContent = name;
 
   // Update profile picture
   if (image) {
     profilePic.innerHTML = `<img class="rounded-circle border-primary pb-2" src="${image}" alt="Profile Picture"/>`;
   } else {
-    profilePic.innerHTML = ''; // Clear profile picture if none is provided
+    profilePic.innerHTML = ""; // Clear profile picture if none is provided
   }
 }
 
 function LogoutMode() {
   SigninBox.classList.remove("d-none");
   profile.classList.add("d-none");
-  
 }
 
 function showLightBox() {
@@ -237,7 +264,7 @@ function hideLightBoxError() {
 
 function validateEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email)
+  return emailRegex.test(email);
 }
 
 function validateName(name) {
@@ -265,13 +292,16 @@ function searchAccount(email, password) {
 
   return accountsList.some(
     (account) =>
-      account.Emial.toLowerCase() === email &&
+      account.Email &&
+      account.Email.toLowerCase() === email &&
+      account.password &&
       account.password.toLowerCase() === password
   );
 }
 
 function isEmailUsed(email) {
   return accountsList.some(
-    (account) => account.Emial.toLowerCase() === email.toLowerCase()
+    (account) =>
+      account.Email && account.Email.toLowerCase() === email.toLowerCase()
   );
 }
