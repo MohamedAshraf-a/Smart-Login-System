@@ -96,7 +96,7 @@ btnSignup.addEventListener("click", function () {
       reader.onload = function (e) {
         var addList = {
           Name: name,
-          Email: email, // Corrected property name
+          Email: email, 
           password: password,
           image: e.target.result,
         };
