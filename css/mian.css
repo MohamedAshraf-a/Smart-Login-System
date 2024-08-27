@@ -1,0 +1,98 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/25.png);
+    background-size: cover;
+    background-attachment: fixed;
+    filter: blur(5px);
+    z-index: -1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.box {
+    position: relative; 
+    background: rgba(0, 0, 0, 0.425);
+    padding: 2rem;
+    border-radius: 0.5rem; 
+    color: #fff;
+    border: solid 1px rgba(255, 255, 255, 0.336);
+}
+#Signup{
+    cursor: pointer;
+}
+#Signin{
+    cursor: pointer;
+}
+
+
+#lightBoxContainer{
+    text-align: center;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.938);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#lightBox{
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+
+#lightBox .content{
+    width: 90%;
+    margin: auto;
+}
+#lightBox .content p{
+   font-size: 20px;
+}
+#lightBox .content h4{
+   font-family: "Bree Serif", serif;
+}
+#lightBoxContainer .fa-xmark{
+    cursor: pointer;
+}
+
+#profilePic img{
+    width: 150px;
+    height: 150px;
+}

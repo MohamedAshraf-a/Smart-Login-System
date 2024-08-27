@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Login System</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/mian.css">
+    <link rel="stylesheet" href="./css/all.min.css">
+</head>
+
+<body class="bg-black">
+
+    <!-- Sign-In Section -->
+    <div class="align-content-center justify-content-center">
+        <div id="SigninBox" class="box container w-100 mt-5 pt-4 rounded-5 w-50">
+            <h1 class="text-light text-uppercase  text-center pb-4">Smart Login System</h1>
+            <input type="text" class="form-control mb-4" placeholder="Enter your email" id="signinEmail">
+            <input type="password" class="form-control mb-4" placeholder="Enter your password" id="signinPassword">
+            <button id="btnSignin" class="btn btn-outline-light w-100 mb-4">Login</button>
+            <div>
+                <p class="text-center">Don’t have an account? <a class="text-white" id="Signup">Sign Up</a></p>
+                <div id="wrongLogin" class="d-none w-100 d-flex justify-content-center align-items-center mt-4">
+                    <i class="fa-solid fa-triangle-exclamation fa-fade fa-xl" style="color: #e51010;"> Incorrect email or password</i>
+                </div>
+                <div class="text-center d-none" id="emptyInputs">
+                    <i class="fa-solid fa-fade fa-xl" style="color: #e90101;"> All inputs are required</i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sign-Up Section -->
+        <div id="SigupBox" class="d-none box container w-100 mt-5 pt-4 rounded-5 w-50">
+            <h1 class="text-white text-center pb-4">Smart Login System</h1>
+            <input type="text" class="form-control mb-4" placeholder="Enter your Name" id="signupName">
+            <input type="text" class="form-control mb-4" placeholder="Enter your email" id="signupEmail">
+            <input type="password" class="form-control mb-4" placeholder="Enter your password" id="signupPassword">
+            <input type="file" class="form-control mb-4" id="profileImage" accept="image/*" required>
+            <button id="btnSignup" class="btn btn-outline-light w-100 mb-4">Sign Up</button>
+            <div>
+                <p class="text-center">You have an account? <a class="text-white" id="Signin">Signin</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign-Up Success Lightbox -->
+    <div id="lightBoxContainer" class="d-none">
+        <div id="lightBox">
+            <div class="content text-white text-center position-relative">
+                <i class="w-100 fa-solid fa-check fa-beat-fade fa-2xl" style="color: #63E6BE;"></i>
+                <p>SignUp Done</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Lightbox -->
+    <div id="lightBoxContainer" class="errorCont d-none">
+        <div id="lightBox" class="eror">
+            <div class="content text-center position-relative">
+                <i class="w-100 fa-regular fa-circle-xmark fa-beat-fade fa-2xl pb-3" style="color: #eb0000;"></i>
+                <div class="errorMessage text-danger w-100 fs-4 ">
+           
+
+                </div>
+
+                <p class="text-bg-danger mt-4">Make sure</p>
+                <ul class="  list-unstyled text-danger list-group">
+                  <li>The email: must be in the format username@domain.extension and cannot contain spaces</li>
+                  <li>The name: can contain letters and may include spaces, apostrophes, or hyphens. It should not start or end with these special characters and must be non-empty.</li>
+                    <li>The password: must be at least 6 characters long. There are no restrictions on the types of characters used.</li>
+                </ul>
+            
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Section -->
+    <div id="profile" class="d-none container text-center text-white">
+        <div>
+            <h1>Welcome</h1>
+        </div>
+        <div>
+            <!-- Profile image -->
+            <div id="profilePic">
+                <img class=" rounded-circle border-primary pb-2" src="" alt="Profile Picture">
+            </div>
+            <h1 id="profileName"></h1>
+        </div>
+        <button id="btnLogout" class="btn btn-danger justify-content-start">Logout</button>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/mian.js"></script>
+</body>
+</html>
